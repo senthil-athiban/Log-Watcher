@@ -16,7 +16,7 @@ Log-Watcher is a Node.js application that mimics the behavior of the `tail -f` c
 
 1. Clone the repository:
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/senthil-athiban/Log-Watcher.git
     ```
 2. Navigate to the project directory:
     ```sh
