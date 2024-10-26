@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/ws@8.18.0/browser.min.js"></script> -->
+    <script src="
+    https://cdn.jsdelivr.net/npm/wss@3.3.4/index.min.js
+    "></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tail -f</title>
+  </head>
+  <script>
+    const socket = new WebSocket('ws://localhost:3000');
+    socket.onopen = () => console.log('client side websocket established');
+    socket.addEventListener('message', (event) => {
+        const message = JSON.parse(event.data);
+        const container = document.getElementById('log-container');
+        if(message.type === "initialLogs") {
+            message.data.map((item) => {
+                container.innerHTML += `<p>${item}</p>`;
+            });
+        }else if( message.type === 'updatedLogs') {
+            message.data.map((item) => {
+                container.innerHTML += `<p>${item}</p>`;
+            });
+        }
+    })
+
+    const handleStop = () => {
+        socket.send('Stop');
+    }
+
+    const handleStart = () => {
+        socket.send('Start');
+    }
+  </script>
+  <body>
+    <h1>Browser stack Assignment</h1>
+    <h2>Logging</h2>
+    <button onclick="handleStop()">Stop</button>
+    <button onclick="handleStart()">Start</button>
+    <div id="log-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; max-width: 50rem;"></div>
+  </body>
+</html>
